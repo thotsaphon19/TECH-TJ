@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/shop", "destination": "/shop.html" },
+    { "source": "/api/:path*", "destination": "/api/index" },
+    { "source": "/webhook/:path*", "destination": "/api/index" }
+  ]
+}

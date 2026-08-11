@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ร้านค้า | TECH-TJ</title>
+<link id="favicon" rel="icon" href="/assets/img/logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/shop.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <a href="/" style="display:flex; align-items:center; gap:.7rem; text-decoration:none;">
+      <img id="site-logo" src="/assets/img/logo.jpg" alt="logo">
+      <div class="logo" id="site-name">TECH-<span>TJ</span></div>
+    </a>
+  </div>
+  <ul class="nav-links">
+    <li><a href="/#services">บริการ</a></li>
+    <li><a href="/shop" style="color:var(--blue)">ร้านค้า</a></li>
+    <li><a href="/#contact">ติดต่อเรา</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="btn-outline" style="padding:.5rem 1rem; font-size:.85rem;" onclick="openAccountPanel()">👤 <span id="acc-nav-label">เข้าสู่ระบบ</span></button>
+    <button class="nav-cta" style="position:relative;" onclick="openCart()">🛒 ตะกร้า <span id="cart-count" class="cart-count-badge">0</span></button>
+  </div>
+</nav>
+
+<header class="shop-hero">
+  <div class="section-tag">SHOP</div>
+  <h1>ร้านค้าออนไลน์ TECH-TJ</h1>
+  <p>อุปกรณ์อิเล็กทรอนิกส์ เซ็นเซอร์ และอุปกรณ์ IoT คุณภาพดี พร้อมจัดส่งทั่วประเทศ</p>
+</header>
+
+<main class="shop-wrap">
+  <div class="shop-toolbar">
+    <div class="category-tabs" id="category-tabs"></div>
+    <input id="search-box" placeholder="ค้นหาสินค้า..." oninput="renderProducts()">
+  </div>
+  <div class="product-grid" id="product-grid"></div>
+</main>
+
+<footer>
+  <div>© <span id="f-year"></span> <span id="f-name-text">TECH-TJ Solution Technology</span>. All rights reserved.</div>
+</footer>
+
+<!-- ---------- CART DRAWER ---------- -->
+<div class="drawer-overlay" id="cart-overlay" onclick="closeCart()"></div>
+<div class="drawer" id="cart-drawer">
+  <div class="drawer-head">
+    <b>🛒 ตะกร้าสินค้า</b>
+    <button onclick="closeCart()">✕</button>
+  </div>
+  <div class="drawer-body" id="cart-items"></div>
+  <div class="drawer-foot">
+    <div class="cart-total-row"><span>ยอดรวม</span><b id="cart-total">฿0</b></div>
+    <button class="btn-primary" style="width:100%" onclick="goToCheckout()">ดำเนินการสั่งซื้อ</button>
+  </div>
+</div>
+
+<!-- ---------- ACCOUNT / LOGIN / REGISTER / ORDERS PANEL ---------- -->
+<div class="drawer-overlay" id="account-overlay" onclick="closeAccountPanel()"></div>
+<div class="drawer" id="account-drawer">
+  <div class="drawer-head">
+    <b id="account-panel-title">บัญชีของฉัน</b>
+    <button onclick="closeAccountPanel()">✕</button>
+  </div>
+  <div class="drawer-body" id="account-body"></div>
+</div>
+
+<!-- ---------- CHECKOUT MODAL ---------- -->
+<div class="modal-overlay" id="checkout-overlay">
+  <div class="modal">
+    <div class="modal-head"><b>ยืนยันคำสั่งซื้อ</b><button onclick="closeCheckout()">✕</button></div>
+    <div class="modal-body" id="checkout-body"></div>
+  </div>
+</div>
+
+<!-- ---------- ORDER DETAIL MODAL ---------- -->
+<div class="modal-overlay" id="order-detail-overlay">
+  <div class="modal">
+    <div class="modal-head"><b>รายละเอียดคำสั่งซื้อ</b><button onclick="closeOrderDetail()">✕</button></div>
+    <div class="modal-body" id="order-detail-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="/assets/js/shop.js"></script>
+</body>
+</html>

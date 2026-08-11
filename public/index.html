@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TECH-TJ | Solution Technology</title>
+<link id="favicon" rel="icon" href="/assets/img/logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <img id="site-logo" src="/assets/img/logo.jpg" alt="logo">
+    <div class="logo" id="site-name">TECH-<span>TJ</span></div>
+  </div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#services" data-i="nav.services">บริการของเรา</a></li>
+    <li><a href="#portfolio" data-i="nav.portfolio">ผลงาน</a></li>
+    <li><a href="#why" data-i="nav.why">ทำไมต้องเรา</a></li>
+    <li><a href="#contact" data-i="nav.contact">ติดต่อเรา</a></li>
+    <li class="lang-switch-mobile-wrap">
+      <div class="lang-switch">
+        <button id="lang-th-mobile" onclick="setLang('th')">TH</button>
+        <button id="lang-en-mobile" onclick="setLang('en')">EN</button>
+      </div>
+    </li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switch lang-switch-desktop">
+      <button id="lang-th" onclick="setLang('th')">TH</button>
+      <button id="lang-en" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="/shop" class="nav-shop-btn" title="ร้านค้า">
+      <span class="shop-icon">🛒</span><span class="shop-text">ร้านค้า</span>
+    </a>
+    <button class="nav-cta" onclick="scrollToContact()" data-i="nav.cta">ติดต่อเลย</button>
+    <button class="nav-burger" onclick="document.getElementById('nav-links').classList.toggle('open')">☰</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-badge" data-i="hero.badge">SOLUTION TECHNOLOGY</div>
+    <h1><span id="hero-title-1" class="reveal in">รับพัฒนาเว็บไซต์ ระบบ และ</span> <span class="accent" id="hero-title-2">IoT</span></h1>
+    <p class="hero-sub" id="hero-sub">ออกแบบและพัฒนาด้วยเทคโนโลยีที่ทันสมัย ใช้งานง่าย รองรับทุกความต้องการของธุรกิจคุณ</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="scrollToContact()" data-i="hero.cta1">ขอคำปรึกษาฟรี</button>
+      <button class="btn-outline" onclick="document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})" data-i="hero.cta2">ดูผลงานของเรา</button>
+    </div>
+  </div>
+  <div class="hero-illustration hud-frame" id="hero-hud">
+    <div class="hud-corner tl"></div>
+    <div class="hud-corner tr"></div>
+    <div class="hud-corner bl"></div>
+    <div class="hud-corner br"></div>
+    <div class="hud-scanline"></div>
+    <img id="hero-showcase-img" class="hero-showcase-img" src="/assets/img/hero-showcase.jpg" alt="TECH-TJ Solution Technology">
+    <div class="hud-vignette"></div>
+    <div class="hud-logo-badge">
+      <img src="/assets/img/logo.jpg" alt="TECH-TJ">
+      <span id="hero-badge-text">ENTERING THE GRID</span>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="section-header reveal">
+    <div class="section-tag" data-i="services.tag">SERVICES</div>
+    <div class="section-title" data-i="services.title">บริการของเรา</div>
+    <div class="section-sub" data-i="services.sub">ครบทุกความต้องการด้านเทคโนโลยี ตั้งแต่เว็บไซต์ แอปพลิเคชัน ไปจนถึงระบบ IoT</div>
+  </div>
+  <div class="services-grid reveal" id="services-grid"></div>
+</section>
+
+<section id="portfolio" style="background:var(--bg-card2)">
+  <div class="section-header reveal">
+    <div class="section-tag" data-i="portfolio.tag">PORTFOLIO</div>
+    <div class="section-title" data-i="portfolio.title">ผลงานของเรา</div>
+    <div class="section-sub" data-i="portfolio.sub">ตัวอย่างระบบที่พัฒนาให้ลูกค้าจริง</div>
+  </div>
+  <div class="portfolio-grid reveal" id="portfolio-grid"></div>
+</section>
+
+<section id="why">
+  <div class="section-header reveal">
+    <div class="section-tag" data-i="why.tag">WHY US</div>
+    <div class="section-title" data-i="why.title">ทำไมต้องเลือกเรา</div>
+  </div>
+  <div class="workflow-wrap reveal">
+    <div class="workflow-line"></div>
+    <div class="workflow-steps">
+      <div class="workflow-step"><div class="num" style="background:var(--blue)">01</div><span class="t" data-i="why.i1t">ส่งงานไว</span><p data-i="why.i1d">งานด่วนภายใน 24-48 ชม.</p></div>
+      <div class="workflow-step"><div class="num" style="background:var(--purple)">02</div><span class="t" data-i="why.i2t">รับผิดชอบงาน 100%</span><p data-i="why.i2d">ตรงเวลา ไม่ทิ้งงาน</p></div>
+      <div class="workflow-step"><div class="num" style="background:var(--orange)">03</div><span class="t" data-i="why.i3t">สื่อสารง่าย</span><p data-i="why.i3d">คุยตรง เข้าใจงานจริง</p></div>
+      <div class="workflow-step"><div class="num" style="background:var(--teal)">04</div><span class="t" data-i="why.i4t">ดูแลหลังส่งงาน</span><p data-i="why.i4d">มีทีมซัพพอร์ตต่อเนื่อง</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="background:var(--bg-card2)">
+  <div class="section-header reveal">
+    <div class="section-tag" data-i="contact.tag">CONTACT</div>
+    <div class="section-title" data-i="contact.title">ติดต่อสอบถาม / แจ้งความต้องการ</div>
+    <div class="section-sub" data-i="contact.sub">ทีมงานพร้อมให้บริการ รวดเร็ว ทันใจ ตอบกลับภายใน 24 ชม.</div>
+  </div>
+  <div class="contact-wrap reveal">
+    <div class="contact-info">
+      <div class="contact-item"><div class="ic">📞</div><div><b data-i="contact.phone">เบอร์โทร</b><span class="v" id="c-phone">066-058-8956</span></div></div>
+      <div class="contact-item"><div class="ic">💬</div><div><b>LINE ID</b><span class="v" id="c-line">tjkeng01</span></div></div>
+      <div class="contact-item"><div class="ic">📘</div><div><b>Facebook</b><span class="v" id="c-fb">TECH TJ</span></div></div>
+      <div class="contact-item"><div class="ic">✉️</div><div><b data-i="contact.email">อีเมล</b><span class="v" id="c-email">contact@techtj.co</span></div></div>
+      <div class="qr-box"><img id="c-qr" src="/assets/img/line-qr-flyer.jpg" alt="LINE QR"><p data-i="contact.qr">สแกนเพิ่มเพื่อน LINE OA เพื่อพูดคุยกับเราได้ทันที</p></div>
+    </div>
+    <form class="contact-form" id="contact-form">
+      <div class="fg"><label data-i="form.name">ชื่อ-นามสกุล</label><input required name="name" id="f-name"></div>
+      <div class="fg"><label data-i="form.phone">เบอร์โทรศัพท์</label><input name="phone" id="f-phone"></div>
+      <div class="fg"><label data-i="form.email">อีเมล</label><input type="email" name="email" id="f-email"></div>
+      <div class="fg"><label data-i="form.service">บริการที่สนใจ</label>
+        <select name="service_interested" id="f-service"></select>
+      </div>
+      <div class="fg"><label data-i="form.message">รายละเอียดงาน</label><textarea name="message" id="f-message"></textarea></div>
+      <button type="submit" class="btn-primary" data-i="form.submit">ส่งข้อความ</button>
+      <div class="form-msg" id="form-msg"></div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="f-links">
+    <span id="f-phone">📞 066-058-8956</span>
+    <span id="f-line">💬 LINE: tjkeng01</span>
+    <span id="f-fb">📘 Facebook: TECH TJ</span>
+  </div>
+  <div>© <span id="f-year"></span> <span id="f-name-text">TECH-TJ Solution Technology</span>. All rights reserved.</div>
+</footer>
+
+<button id="tj-chat-btn" onclick="toggleChat()">💬<span class="badge-dot" id="chat-badge"></span></button>
+<div id="tj-chat-panel">
+  <div class="chat-head">
+    <div><b data-i="chat.title">แชทกับ TECH-TJ</b><small data-i="chat.sub">ทีมงานตอบกลับโดยเร็วที่สุด</small></div>
+    <button onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-body" id="chat-body"></div>
+  <div class="chat-foot">
+    <input id="chat-input" placeholder="พิมพ์ข้อความ...">
+    <button onclick="sendChat()">ส่ง</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>

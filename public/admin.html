@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TECH-TJ | หลังบ้าน (Admin)</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+<body>
+
+<!-- ---------- LOGIN ---------- -->
+<div id="login-screen">
+  <form class="login-box" id="login-form">
+    <img src="/assets/img/logo.jpg" alt="logo">
+    <h2>เข้าสู่ระบบหลังบ้าน TECH-TJ</h2>
+    <input id="login-username" placeholder="ชื่อผู้ใช้" autocomplete="username" required>
+    <input id="login-password" type="password" placeholder="รหัสผ่าน" autocomplete="current-password" required>
+    <button type="submit">เข้าสู่ระบบ</button>
+    <div class="login-err" id="login-err"></div>
+  </form>
+</div>
+
+<!-- ---------- APP SHELL ---------- -->
+<div id="app-shell">
+  <aside>
+    <div class="brand"><img src="/assets/img/logo.jpg"><b>TECH-TJ Admin</b></div>
+    <ul class="menu" id="menu">
+      <li><a data-page="dashboard" class="active">📊 ภาพรวม</a></li>
+      <li><a data-page="services">🧩 บริการ</a></li>
+      <li><a data-page="portfolio">🖼️ ผลงาน</a></li>
+      <li><a data-page="products">🛍️ สินค้า</a></li>
+      <li><a data-page="orders">📦 คำสั่งซื้อ <span class="badge" id="order-badge" style="display:none">0</span></a></li>
+      <li><a data-page="pos">🖥️ ขายหน้าร้าน (POS)</a></li>
+      <li><a data-page="content">📝 เนื้อหาหน้าเว็บ</a></li>
+      <li><a data-page="inquiries">📩 ข้อความติดต่อ <span class="badge" id="inquiry-badge" style="display:none">0</span></a></li>
+      <li><a data-page="chat">💬 แชทลูกค้า <span class="badge" id="chat-badge-menu" style="display:none">•</span></a></li>
+      <li><a data-page="settings">⚙️ ตั้งค่าเว็บไซต์</a></li>
+      <li><a data-page="account">🔑 บัญชีผู้ดูแล</a></li>
+    </ul>
+    <button class="logout-btn" id="logout-btn">ออกจากระบบ</button>
+  </aside>
+
+  <main>
+    <!-- DASHBOARD -->
+    <section class="page active" id="page-dashboard">
+      <div class="page-title">ภาพรวมระบบ</div>
+      <div class="page-sub">สรุปข้อมูลเว็บไซต์ TECH-TJ</div>
+      <div class="stat-cards" id="dash-stats"></div>
+      <div class="panel">
+        <h3>ข้อความติดต่อล่าสุด</h3>
+        <table>
+          <thead><tr><th>ชื่อ</th><th>ติดต่อ</th><th>บริการที่สนใจ</th><th>สถานะ</th><th>วันที่</th></tr></thead>
+          <tbody id="dash-inquiries"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="page" id="page-services">
+      <div class="page-title">จัดการบริการ</div>
+      <div class="page-sub">เพิ่ม / แก้ไข / ลบ รายการบริการที่แสดงหน้าเว็บ (รองรับ 2 ภาษา)</div>
+      <div class="panel">
+        <h3 id="service-form-title">เพิ่มบริการใหม่</h3>
+        <input type="hidden" id="service-id">
+        <div class="grid2">
+          <div class="field"><label>ไอคอน (emoji)</label><input id="service-icon" placeholder="💻"></div>
+          <div class="field"><label>ลำดับการแสดงผล</label><input id="service-order" type="number" value="0"></div>
+        </div>
+        <div class="upload-row">
+          <img id="service-img-preview" src="" style="display:none">
+          <input type="file" id="service-img-file" accept="image/*">
+        </div>
+        <div class="lang-tabs">
+          <button type="button" class="active" data-lang="th" onclick="switchFormLang('service','th')">ภาษาไทย</button>
+          <button type="button" data-lang="en" onclick="switchFormLang('service','en')">English</button>
+        </div>
+        <div class="lang-pane active" id="service-pane-th">
+          <div class="field"><label>ชื่อบริการ (ไทย)</label><input id="service-title-th"></div>
+          <div class="field"><label>รายละเอียด (ไทย)</label><textarea id="service-desc-th"></textarea></div>
+        </div>
+        <div class="lang-pane" id="service-pane-en">
+          <div class="field"><label>Service Title (EN)</label><input id="service-title-en"></div>
+          <div class="field"><label>Description (EN)</label><textarea id="service-desc-en"></textarea></div>
+        </div>
+        <button class="btn" onclick="saveService()">บันทึกบริการ</button>
+        <button class="btn secondary" onclick="resetServiceForm()">ล้างฟอร์ม</button>
+      </div>
+      <div id="services-list"></div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section class="page" id="page-portfolio">
+      <div class="page-title">จัดการผลงาน</div>
+      <div class="page-sub">เพิ่ม / แก้ไข / ลบ ผลงานตัวอย่างที่แสดงหน้าเว็บ (รองรับ 2 ภาษา)</div>
+      <div class="panel">
+        <h3>เพิ่มผลงานใหม่</h3>
+        <input type="hidden" id="portfolio-id">
+        <div class="upload-row">
+          <img id="portfolio-img-preview" src="" style="display:none">
+          <input type="file" id="portfolio-img-file" accept="image/*">
+        </div>
+        <div class="field"><label>ลิงก์ (ถ้ามี)</label><input id="portfolio-link"></div>
+        <div class="field"><label>ลำดับการแสดงผล</label><input id="portfolio-order" type="number" value="0"></div>
+        <div class="lang-tabs">
+          <button type="button" class="active" data-lang="th" onclick="switchFormLang('portfolio','th')">ภาษาไทย</button>
+          <button type="button" data-lang="en" onclick="switchFormLang('portfolio','en')">English</button>
+        </div>
+        <div class="lang-pane active" id="portfolio-pane-th">
+          <div class="field"><label>ชื่อผลงาน (ไทย)</label><input id="portfolio-title-th"></div>
+          <div class="field"><label>รายละเอียด (ไทย)</label><textarea id="portfolio-desc-th"></textarea></div>
+        </div>
+        <div class="lang-pane" id="portfolio-pane-en">
+          <div class="field"><label>Title (EN)</label><input id="portfolio-title-en"></div>
+          <div class="field"><label>Description (EN)</label><textarea id="portfolio-desc-en"></textarea></div>
+        </div>
+        <button class="btn" onclick="savePortfolio()">บันทึกผลงาน</button>
+        <button class="btn secondary" onclick="resetPortfolioForm()">ล้างฟอร์ม</button>
+      </div>
+      <div id="portfolio-list"></div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="page" id="page-products">
+      <div class="page-title">จัดการสินค้า</div>
+      <div class="page-sub">เพิ่ม / แก้ไข / ลบ สินค้าในร้านค้าออนไลน์ พร้อมจัดการสต๊อกสินค้า</div>
+      <div class="panel">
+        <h3 id="product-form-title">เพิ่มสินค้าใหม่</h3>
+        <input type="hidden" id="product-id">
+        <div class="grid2">
+          <div class="field"><label>รหัสสินค้า (SKU)</label><input id="product-sku"></div>
+          <div class="field"><label>หมวดหมู่</label><input id="product-category" placeholder="เช่น เซ็นเซอร์, บอร์ดพัฒนา"></div>
+        </div>
+        <div class="upload-row">
+          <img id="product-img-preview" src="" style="display:none">
+          <input type="file" id="product-img-file" accept="image/*">
+        </div>
+        <div class="lang-tabs">
+          <button type="button" class="active" data-lang="th" onclick="switchFormLang('product','th')">ภาษาไทย</button>
+          <button type="button" data-lang="en" onclick="switchFormLang('product','en')">English</button>
+        </div>
+        <div class="lang-pane active" id="product-pane-th">
+          <div class="field"><label>ชื่อสินค้า (ไทย)</label><input id="product-name-th"></div>
+          <div class="field"><label>รายละเอียด (ไทย)</label><textarea id="product-desc-th"></textarea></div>
+        </div>
+        <div class="lang-pane" id="product-pane-en">
+          <div class="field"><label>Product Name (EN)</label><input id="product-name-en"></div>
+          <div class="field"><label>Description (EN)</label><textarea id="product-desc-en"></textarea></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>ราคา (บาท)</label><input id="product-price" type="number" step="0.01"></div>
+          <div class="field"><label>จำนวนในสต๊อก</label><input id="product-stock" type="number"></div>
+        </div>
+        <button class="btn" onclick="saveProduct()">บันทึกสินค้า</button>
+        <button class="btn secondary" onclick="resetProductForm()">ล้างฟอร์ม</button>
+      </div>
+      <div id="products-list"></div>
+    </section>
+
+    <!-- ORDERS -->
+    <section class="page" id="page-orders">
+      <div class="page-title">คำสั่งซื้อ</div>
+      <div class="page-sub">ตรวจสอบคำสั่งซื้อ ยืนยันการชำระเงินจากสลิป และอัปเดตสถานะการจัดส่ง</div>
+      <div class="panel">
+        <table>
+          <thead><tr><th>เลขที่คำสั่งซื้อ</th><th>ลูกค้า</th><th>ยอดรวม</th><th>สถานะ</th><th>การชำระเงิน</th><th>วันที่</th><th></th></tr></thead>
+          <tbody id="orders-list"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- POS -->
+    <section class="page" id="page-pos">
+      <div class="page-title">ขายหน้าร้าน (POS)</div>
+      <div class="page-sub">บันทึกการขายสินค้าให้ลูกค้าหน้าร้านโดยตรง ระบบจะตัดสต๊อกและปิดออเดอร์เป็น "ชำระเงินแล้ว" ทันที</div>
+      <div class="grid2">
+        <div class="panel">
+          <h3>เลือกสินค้า</h3>
+          <input id="pos-search" placeholder="ค้นหาสินค้า..." oninput="renderPosProductList()" style="width:100%; margin-bottom:1rem; background:var(--card2); border:1px solid var(--border); color:var(--text); padding:.6rem .8rem; border-radius:7px;">
+          <div id="pos-product-list" style="max-height:420px; overflow-y:auto;"></div>
+        </div>
+        <div class="panel">
+          <h3>ตะกร้าขาย</h3>
+          <div id="pos-cart" style="margin-bottom:1rem;"></div>
+          <div style="display:flex; justify-content:space-between; font-weight:700; font-size:1.1rem; margin-bottom:1rem; padding-top:.8rem; border-top:1px solid var(--border);">
+            <span>ยอดรวม</span><span id="pos-total">฿0</span>
+          </div>
+          <div class="field"><label>ชื่อลูกค้า (ถ้ามี)</label><input id="pos-customer-name" placeholder="ลูกค้าหน้าร้าน"></div>
+          <div class="field"><label>เบอร์โทร (ถ้ามี)</label><input id="pos-customer-phone"></div>
+          <button class="btn" style="width:100%" onclick="submitPosSale()">✅ บันทึกการขาย</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SITE CONTENT (ข้อความ UI ทุกจุดที่แสดงหน้าบ้าน) -->
+    <section class="page" id="page-content">
+      <div class="page-title">เนื้อหาหน้าเว็บ</div>
+      <div class="page-sub">แก้ไขข้อความทุกจุดที่แสดงหน้าบ้านได้ที่นี่ (เมนู, หน้าแรก, หัวข้อแต่ละส่วน, ฟอร์ม, แชท) — กรอกทั้งภาษาไทยและอังกฤษ บันทึกแล้วมีผลทันที</div>
+
+      <div class="panel">
+        <h3>ตัวเลขสถิติหน้าแรก (ไม่ต้องแปลภาษา ใช้ตัวเลข/สัญลักษณ์เดียวกันทั้ง 2 ภาษา)</h3>
+        <div class="grid2">
+          <div class="field"><label>สถิติที่ 1 (เช่น 24-48)</label><input id="ct-stat1-number"></div>
+          <div class="field"><label>สถิติที่ 2 (เช่น 100%)</label><input id="ct-stat2-number"></div>
+        </div>
+        <div class="field" style="max-width:calc(50% - 0.5rem)"><label>สถิติที่ 3 (เช่น 24/7)</label><input id="ct-stat3-number"></div>
+      </div>
+
+      <div id="content-texts-groups"></div>
+
+      <button class="btn" onclick="saveContentTexts()">บันทึกเนื้อหาทั้งหมด</button>
+      <span id="content-save-msg" style="margin-left:1rem; color:var(--muted); font-size:.85rem;"></span>
+    </section>
+
+    <!-- INQUIRIES -->
+    <section class="page" id="page-inquiries">
+      <div class="page-title">ข้อความติดต่อจากลูกค้า</div>
+      <div class="page-sub">รายการคำขอที่ส่งมาจากฟอร์มติดต่อหน้าเว็บ (ระบบส่งแจ้งเตือนอีเมล/LINE ให้อัตโนมัติ)</div>
+      <div class="panel">
+        <table>
+          <thead><tr><th>ชื่อ</th><th>ติดต่อ</th><th>บริการที่สนใจ</th><th>ข้อความ</th><th>สถานะ</th><th>วันที่</th><th></th></tr></thead>
+          <tbody id="inquiries-list"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CHAT -->
+    <section class="page" id="page-chat">
+      <div class="page-title">แชทเรียลไทม์กับลูกค้า</div>
+      <div class="page-sub">ตอบแชทจากหน้าเว็บและจาก LINE OA ได้ในที่เดียว</div>
+      <div class="chat-wrap">
+        <div class="chat-sessions" id="chat-sessions"></div>
+        <div class="chat-window">
+          <div class="chat-window-body" id="chat-window-body"><p style="color:var(--muted); padding:1rem; font-size:.85rem;">เลือกห้องแชทด้านซ้ายเพื่อเริ่มตอบลูกค้า</p></div>
+          <div class="chat-window-foot">
+            <input id="chat-window-input" placeholder="พิมพ์ข้อความตอบกลับ...">
+            <button onclick="adminSendChat()">ส่ง</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="page" id="page-settings">
+      <div class="page-title">ตั้งค่าเว็บไซต์</div>
+      <div class="page-sub">ปรับแต่งโลโก้ ชื่อเว็บ ฟอนต์ สี และข้อมูลติดต่อ — มีผลทันทีที่หน้าบ้าน</div>
+
+      <div class="panel">
+        <h3>โลโก้ &amp; แบรนด์</h3>
+        <div class="upload-row">
+          <img id="set-logo-preview" src="/assets/img/logo.jpg">
+          <input type="file" id="set-logo-file" accept="image/*">
+        </div>
+        <div class="grid2">
+          <div class="field"><label>ชื่อเว็บไซต์ (ไทย)</label><input id="set-site-th"></div>
+          <div class="field"><label>Site name (EN)</label><input id="set-site-en"></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>สโลแกน (ไทย)</label><input id="set-tagline-th"></div>
+          <div class="field"><label>Tagline (EN)</label><input id="set-tagline-en"></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>คำอธิบายรอง (ไทย)</label><textarea id="set-herosub-th"></textarea></div>
+          <div class="field"><label>Sub description (EN)</label><textarea id="set-herosub-en"></textarea></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>🖥️ รูปภาพหน้าแรก (Hero Showcase)</h3>
+        <div class="page-sub" style="margin-bottom:1rem;">รูปที่แสดงในกรอบ HUD ฝั่งขวาของหน้าแรก พร้อมเอฟเฟกต์สแกนไลน์และกรอบมุมไฮเทค</div>
+        <div class="upload-row">
+          <img id="set-hero-img-preview" src="/assets/img/hero-showcase.jpg" style="width:120px; height:80px; object-fit:cover;">
+          <input type="file" id="set-hero-img-file" accept="image/*">
+        </div>
+        <div class="field"><label>ข้อความป้ายมุมล่างซ้ายของรูป (เช่น ENTERING THE GRID)</label><input id="set-hero-badge-text"></div>
+      </div>
+
+      <div class="panel">
+        <h3>ธีมเว็บไซต์</h3>
+        <div class="grid2">
+          <div class="field"><label>สีหลัก (Primary color)</label><input id="set-primary" type="color"></div>
+          <div class="field"><label>สีเน้น (Accent color)</label><input id="set-accent" type="color"></div>
+        </div>
+        <div class="field">
+          <label>ฟอนต์</label>
+          <select id="set-font">
+            <option value="Sarabun">Sarabun (ไทย มาตรฐาน)</option>
+            <option value="Kanit">Kanit</option>
+            <option value="Prompt">Prompt</option>
+            <option value="Mitr">Mitr</option>
+            <option value="Chakra Petch">Chakra Petch</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>ภาษาเริ่มต้นของหน้าเว็บ</label>
+          <select id="set-default-lang"><option value="th">ไทย</option><option value="en">English</option></select>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>ข้อมูลติดต่อ</h3>
+        <div class="grid2">
+          <div class="field"><label>เบอร์โทร</label><input id="set-phone"></div>
+          <div class="field"><label>LINE ID</label><input id="set-lineid"></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>Facebook (ชื่อเพจ)</label><input id="set-fb"></div>
+          <div class="field"><label>Facebook URL</label><input id="set-fburl"></div>
+        </div>
+        <div class="field"><label>อีเมลที่แสดงหน้าเว็บ</label><input id="set-email-display"></div>
+        <div class="upload-row">
+          <img id="set-qr-preview" src="/assets/img/line-qr-flyer.jpg">
+          <input type="file" id="set-qr-file" accept="image/*">
+          <span style="color:var(--muted); font-size:.8rem">รูป QR Code LINE OA</span>
+        </div>
+      </div>
+
+      <button class="btn" onclick="saveSettings()">บันทึกการตั้งค่าทั้งหมด</button>
+    </section>
+
+    <!-- ACCOUNT -->
+    <section class="page" id="page-account">
+      <div class="page-title">บัญชีผู้ดูแลระบบ</div>
+      <div class="page-sub">เปลี่ยนรหัสผ่านสำหรับเข้าสู่ระบบหลังบ้าน</div>
+      <div class="panel" style="max-width:420px">
+        <div class="field"><label>รหัสผ่านเดิม</label><input type="password" id="acc-current"></div>
+        <div class="field"><label>รหัสผ่านใหม่</label><input type="password" id="acc-new"></div>
+        <button class="btn" onclick="changePassword()">เปลี่ยนรหัสผ่าน</button>
+        <div class="login-err" id="acc-msg"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modal-overlay-admin" id="order-modal-overlay" style="position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:700; display:none; align-items:center; justify-content:center; padding:1rem;">
+  <div style="background:var(--card); border:1px solid var(--border); border-radius:16px; width:100%; max-width:560px; max-height:88vh; display:flex; flex-direction:column;">
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:1.2rem 1.4rem; border-bottom:1px solid var(--border);">
+      <b>รายละเอียดคำสั่งซื้อ</b>
+      <button onclick="closeOrderModal()" style="background:none; border:none; color:var(--muted); font-size:1.3rem; cursor:pointer;">✕</button>
+    </div>
+    <div id="order-modal-body" style="padding:1.4rem; overflow-y:auto;"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="/assets/js/admin.js"></script>
+</body>
+</html>
